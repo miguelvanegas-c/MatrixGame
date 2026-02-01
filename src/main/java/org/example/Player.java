@@ -1,11 +1,13 @@
 package org.example;
 
-public interface Player {
+import java.util.concurrent.CyclicBarrier;
 
-    void setBoard(Board board);
-    int getXPosition();
-    int getYPosition();
-    void makeFinish();
-    void run();
-    char getRepresentation();
+public abstract class Player implements Runnable {
+
+    abstract void setBoard(Board board);
+    abstract int getXPosition();
+    abstract int getYPosition();
+    abstract void setXPosition(int xPosition);
+    abstract void setYPosition(int yPosition);
+    abstract char getRepresentation();
 }

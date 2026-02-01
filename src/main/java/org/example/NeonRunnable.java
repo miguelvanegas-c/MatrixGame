@@ -1,39 +1,40 @@
+
 package org.example;
 
 
-public class NeonRunnable implements Runnable, Player{
-    private int xPosition;
-    private int yPosition;
-    private Board board;
-    private boolean finish = false;
+import lombok.Getter;
+import lombok.Setter;
+
+public class NeonRunnable extends Player{
+    @Getter
     private char representation;
+    @Setter
+    @Getter
+    private int xPosition;
+    @Setter
+    @Getter
+    private int yPosition;
+    @Setter
+    private Board board;
+
 
     public NeonRunnable(int xPosition, int yPosition){
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.representation = 'N';
     }
+
+    @Override
     public void run() {
-        board.move(this);
+        try {
+            while (!board.isFinishGame()) {
+                board.move(this);
+                board.waitForAllThePlayers();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setBoard(Board board){
-        this.board = board;
-    }
 
-    public int getXPosition(){
-        return xPosition;
-    }
-
-    public int getYPosition(){
-        return yPosition;
-    }
-
-    public void makeFinish() {
-        finish = true;
-    }
-
-    public char getRepresentation() {
-        return representation;
-    }
 }

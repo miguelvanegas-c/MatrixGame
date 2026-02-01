@@ -1,13 +1,24 @@
 package org.example;
 
 
-public class AgentRunnable implements Runnable, Player{
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.concurrent.CyclicBarrier;
+
+public class AgentRunnable extends Player{
+
+    @Getter
     private char representation;
+    @Setter
+    @Getter
     private int xPosition;
+    @Setter
+    @Getter
     private int yPosition;
-    private boolean finish = false;
+    @Setter
     private Board board;
+
 
     public AgentRunnable(int xPosition, int yPosition){
         this.xPosition = xPosition;
@@ -15,27 +26,20 @@ public class AgentRunnable implements Runnable, Player{
         this.representation = 'A';
     }
 
+    @Override
     public void run() {
-        board.move(this);
+        try {
+            while (!board.isFinishGame()) {
+
+                board.move(this);
+                board.waitForAllThePlayers();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
 
-    public int getXPosition(){
-        return xPosition;
-    }
 
-    public int getYPosition(){
-        return yPosition;
-    }
-
-    public void makeFinish(){
-        finish = true;
-    }
-
-    public char getRepresentation() {
-        return representation;
-    }
 }
